@@ -10,12 +10,13 @@ Halaman Register
         <img src="{{ asset('Login/images/img-01.png')}}" alt="IMG">
     </div>
 
-    <form class="login100-form validate-form">
+    <form class="login100-form validate-form" action="/registerAdmin" method="post">
+        @csrf
         <span class="login100-form-title">
             Selamat Datang , Silahkan Register !!
         </span>
 
-        <div class="wrap-input100 validate-input">
+        <div class="wrap-input100 validate-input" data-validate="The Username field is required">
             <input class="input100" type="text" name="name" id="name" placeholder="Username">
             <span class="focus-input100"></span>
             <span class="symbol-input100">
@@ -23,7 +24,7 @@ Halaman Register
             </span>
         </div>
 
-        <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
+        <div class="wrap-input100 validate-input" data-validate="The Email field is required ">
             <input class="input100" type="text" name="email" id="email" placeholder="Email">
             <span class="focus-input100"></span>
             <span class="symbol-input100">
@@ -31,7 +32,7 @@ Halaman Register
             </span>
         </div>
 
-        <div class="wrap-input100 validate-input" data-validate="Password is required">
+        <div class="wrap-input100 validate-input" data-validate="The Password field is required">
             <input class="input100" type="password" name="password" id="password" placeholder="Password">
             <span class="focus-input100"></span>
             <span class="symbol-input100">
@@ -40,12 +41,16 @@ Halaman Register
         </div>
 
         <div class="container-login100-form-btn">
-            <button class="login100-form-btn">
+            <button class="login100-form-btn" type="submit">
                 Register
             </button>
         </div>
 
         <div class="text-center p-t-136">
+            <a class="txt2" href="/loginAdmin">
+                Already register
+                <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+            </a>
         </div>
     </form>
 </div>

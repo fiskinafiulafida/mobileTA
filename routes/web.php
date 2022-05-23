@@ -19,3 +19,4 @@ Route::get('/loginAdmin', [LoginController::class, 'index']);
 
 // register
 Route::get('/registerAdmin', [RegisterController::class, 'index']);
+Route::post('/registerAdmin', [RegisterController::class, 'store']);
