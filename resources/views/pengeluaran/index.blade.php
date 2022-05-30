@@ -1,18 +1,18 @@
 @extends('layout.nav')
 
 @section('title')
-Category
+Pengeluaran
 @endsection
 
 @section('container')
-<h1 class="mt-4">Category</h1>
+<h1 class="mt-4">Pengeluaran</h1>
 <ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item active">Category</li>
+    <li class="breadcrumb-item active">Pengeluaran</li>
 </ol>
 <div class="card mb-4">
     <div class="card-header">
         <i class="fas fa-table me-1"></i>
-        DataTable Category
+        DataTable Pengeluaran
     </div>
     <div class="card-body">
         <table id="datatablesSimple">

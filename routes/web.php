@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PengeluaranController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
@@ -28,5 +28,5 @@ Route::post('/registerAdmin', [RegisterController::class, 'store']);
 // dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 
-// Category
-Route::get('/category', [CategoryController::class, 'index']);
+// pengeluaran
+Route::get('/pengeluaran', [PengeluaranController::class, 'index']);

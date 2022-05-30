@@ -68,9 +68,9 @@
                                 <a class="nav-link" href="#">Pengunjung</a>
                             </nav>
                         </div>
-                        <a class="nav-link" href="/category">
+                        <a class="nav-link" href="/pengeluaran">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-area"></i></div>
-                            Category
+                            Pengeluaran
                         </a>
                     </div>
                 </div>
