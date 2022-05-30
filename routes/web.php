@@ -30,3 +30,5 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('aut
 
 // pengeluaran
 Route::get('/pengeluaran', [PengeluaranController::class, 'index']);
+Route::get('/pengeluaran/create', [PengeluaranController::class, 'create']);
+Route::post('/pengeluaran', [PengeluaranController::class, 'store']);
