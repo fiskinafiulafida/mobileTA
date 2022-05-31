@@ -64,13 +64,17 @@
                         </a>
                         <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="#">Admin</a>
-                                <a class="nav-link" href="#">Pengunjung</a>
+                                <a class="nav-link" href="/adminUser">Admin</a>
+                                <a class="nav-link" href="/pengunjung">Pengunjung</a>
                             </nav>
                         </div>
                         <a class="nav-link" href="/pengeluaran">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-area"></i></div>
                             Pengeluaran
+                        </a>
+                        <a class="nav-link" href="/pemasukan">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-area"></i></div>
+                            Pemasukan
                         </a>
                     </div>
                 </div>

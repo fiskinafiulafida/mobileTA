@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PengunjungController;
+use App\Http\Controllers\PemasukanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,7 +31,3 @@ Route::post('/registerAdmin', [RegisterController::class, 'store']);
 // dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 
-// pengeluaran
-Route::get('/pengeluaran', [PengeluaranController::class, 'index']);
-Route::get('/pengeluaran/create', [PengeluaranController::class, 'create']);
-Route::post('/pengeluaran', [PengeluaranController::class, 'store']);
