@@ -41,10 +41,13 @@ Pengeluaran
                     <td>{{ $peng->nama }}</td>
                     <td>{{ $peng->deskripsi }}</td>
                     <td>{{ $peng->gambar }}</td>
-                    <td>
-                        <form action="">
+                    <td><a href="">
                             <button type="button" class="btn btn-warning">Edit</button>
-                            <button type="button" class="btn btn-danger">Hapus</button>
+                        </a>
+                        <form action="/userAdmin/{{ $userAdmin->id }}/edit" method="POST">
+                            @method('DELETE')
+                            @csrf
+                            <button type=" button" class="btn btn-danger">Hapus</button>
                         </form>
                     </td>
                 </tr>

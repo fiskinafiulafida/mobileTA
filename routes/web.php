@@ -38,6 +38,9 @@ Route::post('/pengeluaran', [PengeluaranController::class, 'store']);
 
 //admin
 Route::get('/adminUser', [AdminController::class, 'index']);
+Route::get('/adminUser/{id}/edit', [AdminController::class, 'edit']);
+Route::put('/adminUser/{id}', [AdminController::class, 'update']);
+Route::delete('/adminUser/{id}', [AdminController::class, 'destroy']);
 
 //pengunjung
 Route::get('/pengunjung', [PengunjungController::class, 'index']);
