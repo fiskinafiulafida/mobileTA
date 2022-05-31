@@ -44,6 +44,9 @@ Route::delete('/adminUser/{id}', [AdminController::class, 'destroy']);
 
 //pengunjung
 Route::get('/pengunjung', [PengunjungController::class, 'index']);
+Route::get('/pengunjung/{id}/edit', [PengunjungController::class, 'edit']);
+Route::put('/pengunjung/{id}', [PengunjungController::class, 'update']);
+Route::delete('/pengunjung/{id}', [PengunjungController::class, 'destroy']);
 
 //pemasukan
 Route::get('/pemasukan', [PemasukanController::class, 'index']);

@@ -31,11 +31,23 @@ Pengunjung
                 </tr>
             </tfoot>
             <tbody>
+                @foreach($pengunjung as $peng)
                 <tr>
-                    <td>Tiger Nixon</td>
-                    <td>System Architect</td>
-                    <td>Edinburgh</td>
+                    <td>{{$peng->id}}</td>
+                    <td>{{$peng->name}}</td>
+                    <td>{{$peng->email}}</td>
+                    <td class="col-md-1">
+                        <a href="/pengunjung/{{$peng->id}}/edit">
+                            <button type="button" class="btn btn-warning">Edit</button>
+                        </a><br><br>
+                        <form action="/pengunjung/{{ $peng->id }}" method="POST">
+                            @method('DELETE')
+                            @csrf
+                            <button type=" button" class="btn btn-danger">Hapus</button>
+                        </form>
+                    </td>
                 </tr>
+                @endforeach
             </tbody>
         </table>
     </div>

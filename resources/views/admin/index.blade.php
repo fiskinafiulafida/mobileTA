@@ -35,10 +35,10 @@ Admin
                     <td>{{$peng->id}}</td>
                     <td>{{$peng->name}}</td>
                     <td>{{$peng->email}}</td>
-                    <td>
+                    <td class="col-md-1">
                         <a href="/adminUser/{{$peng->id}}/edit">
                             <button type="button" class="btn btn-warning">Edit</button>
-                        </a>
+                        </a><br><br>
                         <form action="/adminUser/{{ $peng->id }}" method="POST">
                             @method('DELETE')
                             @csrf
