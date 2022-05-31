@@ -9,8 +9,8 @@ class PengeluaranController extends Controller
 {
     public function index()
     {
-        $peng = Pengeluaran::all();
-        return view('pengeluaran.index', compact(['peng']));
+        $pengeluaran = Pengeluaran::all();
+        return view('pengeluaran.index', compact(['pengeluaran']));
     }
 
     public function create()
@@ -20,8 +20,6 @@ class PengeluaranController extends Controller
 
     public function store(Request $request)
     {
-        return $request->file('image')->store('image');
-        Pengeluaran::create($request->all());
-        return redirect('/places');
+        return $request->file('image')->store('images');
     }
 }

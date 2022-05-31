@@ -31,3 +31,16 @@ Route::post('/registerAdmin', [RegisterController::class, 'store']);
 // dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 
+// pengeluaran
+Route::get('/pengeluaran', [PengeluaranController::class, 'index']);
+Route::get('/pengeluaran/create', [PengeluaranController::class, 'create']);
+Route::post('/pengeluaran', [PengeluaranController::class, 'store']);
+
+//admin
+Route::get('/adminUser', [AdminController::class, 'index']);
+
+//pengunjung
+Route::get('/pengunjung', [PengunjungController::class, 'index']);
+
+//pemasukan
+Route::get('/pemasukan', [PemasukanController::class, 'index']);
