@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PengunjungController;
+use App\Http\Controllers\PemasukanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,3 +33,12 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('aut
 
 // pengeluaran
 Route::get('/pengeluaran', [PengeluaranController::class, 'index']);
+
+//admin
+Route::get('/adminUser', [AdminController::class, 'index']);
+
+//pengunjung
+Route::get('/pengunjung', [PengunjungController::class, 'index']);
+
+//pemasukan
+Route::get('/pemasukan', [PemasukanController::class, 'index']);
