@@ -12,7 +12,7 @@ Edit Pengeluaran
         Edit Pengeluaran
     </div>
     <div class="card-body">
-        <form action="pengeluaran.update',$pengeluaran->id" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('pengeluaran.update', $pengeluaran->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="mb-3">
@@ -20,12 +20,17 @@ Edit Pengeluaran
                 <input type="text" class="form-control" name="nama" value="{{ $pengeluaran->nama }}">
             </div>
             <div class="mb-3">
-                <label for="deskripsi" class="form-label">Deskripsi</label>
-                <textarea class="form-control" name="deskripsi" value="{{ $pengeluaran->deskripsi }}" rows="3"></textarea>
+                <div class="form-group">
+                    <label for="deskripsi">Deskripsi Barang</label>
+                    <textarea class="form-control" name="deskripsi" required>{{ $pengeluaran->deskripsi }}</textarea>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="gambar">Cover Buku</label>
-                <input type="file" name="gambar" value="{{ $pengeluaran->gambar }}">
+            <div class=" mb-3">
+                <div class="form-group">
+                    <label for="gambar">Gambar</label>
+                    <input type="file" class="form-control" name="gambar" value="{{ $pengeluaran->gambar }}"><br>
+                    <img src="{{ asset('gambar/'.$pengeluaran->gambar) }}" height="150px" width="150px">
+                </div>
             </div>
             <button type="submit" class="btn btn-primary">Save</button>
         </form>

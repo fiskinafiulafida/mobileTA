@@ -9,21 +9,6 @@ use Illuminate\Support\Facades\File;
 
 class PengeluaranController extends Controller
 {
-    // public function index()
-    // {
-    //     $pengeluaran = Pengeluaran::all();
-    //     return view('pengeluaran.index', compact(['pengeluaran']));
-    // }
-
-    // public function create()
-    // {
-    //     return view('pengeluaran.create');
-    // }
-
-    // public function store(Request $request)
-    // {
-    //     return $request->file('image')->store('images');
-    // }
     /**
      * Display a listing of the resource.
      *
@@ -86,7 +71,7 @@ class PengeluaranController extends Controller
     {
         $show = Pengeluaran::find($id);
 
-        return view('admin.buku.detail', compact('show'));
+        return view('pengeluaran.detail', compact('show'));
     }
 
     /**
@@ -97,11 +82,10 @@ class PengeluaranController extends Controller
      */
     public function edit($id)
     {
-        // $edit = Pengeluaran::find($id);
-        // return view('admin.buku.edit', compact('edit'));
-
-        $pengeluaran = Pengeluaran::all();
-        return view('pengeluaran.edit', compact('pengeluaran'));
+        $pengeluaran = Pengeluaran::where('id', $id)->first();
+        return view('pengeluaran.edit', [
+            'pengeluaran' => $pengeluaran
+        ]);
     }
 
     /**
@@ -111,33 +95,22 @@ class PengeluaranController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Pengeluaran $pengeluaran)
     {
-        $request->validate([
-            'nama' => 'sometimes',
-            'deskripsi' => 'sometimes',
-            'gambar' => 'sometimes|image|mimes:jpg,png,jpeg,gif,svg|max:1024',
-        ]);
+        $rules = [
+            'id' => 'required',
+            'nama' => 'required',
+            'deskripsi' => 'required',
+            'gambar' => 'nullable',
+        ];
 
-        $pengeluaran = new Pengeluaran;
+        $validatedData = $request->validate($rules);
 
-        $pengeluaran->nama = $request->nama;
-        $pengeluaran->deskripsi = $request->deskripsi;
+        Pengeluaran::where('id', $pengeluaran->id)
+            ->update($validatedData);
 
-        if ($request->hasFile('gambar')) {
-            $path = 'image/' . $pengeluaran->gambar;
-            if (File::exists($path)) {
-                File::delete($path);
-            }
-            $file = $request->file('gambar');
-            $ext = $file->getClientOriginalExtension();
-            $image_name = time() . '.' . $ext;
-            $file->move('image/', $image_name);
-            $pengeluaran->gambar = $image_name;
-        }
-
-        $pengeluaran->save();
-        return redirect()->route('pengeluaran.index')->with('msg', 'Data Berhasil diupdate');
+        return redirect()->route('pengeluaran.index')
+            ->with('success', 'Data Berhasil diupdate');
     }
 
     /**
@@ -146,9 +119,14 @@ class PengeluaranController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($pengeluaran)
     {
-        Pengeluaran::find($id)->delete();
-        return redirect('pengeluaran')->with('msg', 'Data Berhasil dihapus');
+        if (File::exists('gambar/' . $pengeluaran->gambar)) {
+            File::delete('gambar/' . $pengeluaran->gambar);
+        }
+
+        Pengeluaran::find($pengeluaran->id)->delete();
+        return redirect()->route('pengeluran.index')
+            ->with('success', 'Pengeluaran berhasil dihapus');
     }
 }
