@@ -32,9 +32,10 @@ Route::post('/registerAdmin', [RegisterController::class, 'store']);
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 
 // pengeluaran
-Route::get('/pengeluaran', [PengeluaranController::class, 'index']);
-Route::get('/pengeluaran/create', [PengeluaranController::class, 'create']);
-Route::post('/pengeluaran', [PengeluaranController::class, 'store']);
+// Route::get('/pengeluaran', [PengeluaranController::class, 'index']);
+// Route::get('/pengeluaran/create', [PengeluaranController::class, 'create']);
+// Route::post('/pengeluaran', [PengeluaranController::class, 'store']);
+Route::resource('pengeluaran', PengeluaranController::class);
 
 //admin
 Route::get('/adminUser', [AdminController::class, 'index']);

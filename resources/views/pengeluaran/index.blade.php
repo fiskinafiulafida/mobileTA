@@ -40,14 +40,13 @@ Pengeluaran
                 <tr>
                     <td>{{ $peng->nama }}</td>
                     <td>{{ $peng->deskripsi }}</td>
-                    <td>{{ $peng->gambar }}</td>
-                    <td><a href="">
-                            <button type="button" class="btn btn-warning">Edit</button>
-                        </a>
-                        <form action="/userAdmin/{{ $userAdmin->id }}/edit" method="POST">
-                            @method('DELETE')
+                    <td><img src="{{asset('gambar/'.$peng->gambar)}}" style='width:80px; height:50px;'></td>
+                    <td>
+                        <form action="{{ route('pengeluaran.destroy', $peng->id) }}" method="POST">
+                            <a href="{{ route('pengeluaran.edit',$peng->id) }}" class="btn btn-warning btn-rounded">Edit</a>
                             @csrf
-                            <button type=" button" class="btn btn-danger">Hapus</button>
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-rounded" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Delete</button>
                         </form>
                     </td>
                 </tr>

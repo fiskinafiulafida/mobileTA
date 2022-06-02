@@ -10,4 +10,9 @@ class Pengeluaran extends Model
     use HasFactory;
     protected $table = "pengeluaran";
     protected $guarded = ['id'];
+
+    public function pengeluaran()
+    {
+        return $this->hasMany(Pengeluaran::class);
+    }
 }
