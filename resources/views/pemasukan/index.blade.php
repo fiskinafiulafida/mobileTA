@@ -6,9 +6,12 @@ Pemasukan
 
 @section('container')
 <h1 class="mt-4">Pemasukan</h1>
-<ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item active">Pemasukan</li>
-</ol>
+<div>
+    <a href="/pemasukan/create">
+        <button type="button" class="btn btn-outline-primary">Tambah Data Pemasukan</button>
+    </a>
+</div>
+<br>
 <div class="card mb-4">
     <div class="card-header">
         <i class="fas fa-table me-1"></i>
@@ -26,19 +29,28 @@ Pemasukan
             </thead>
             <tfoot>
                 <tr>
-                    <th>Nama</th>
-                    <th>Deskripsi</th>
-                    <th>Gambar</th>
-                    <th>Action</th>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Office</th>
+                    <th>Age</th>
                 </tr>
             </tfoot>
             <tbody>
+                @foreach($pemasukan as $peng)
                 <tr>
-                    <td>Tiger Nixon</td>
-                    <td>System Architect</td>
-                    <td>Edinburgh</td>
-                    <td>61</td>
+                    <td>{{ $peng->nama }}</td>
+                    <td>{{ $peng->deskripsi }}</td>
+                    <td><img src="{{asset('gambar/'.$peng->gambar)}}" style='width:80px; height:50px;'></td>
+                    <td>
+                        <form action="{{ route('pemasukan.destroy', $peng->id) }}" method="POST">
+                            <a href="{{ route('pemasukan.edit',$peng->id) }}" class="btn btn-warning btn-rounded">Edit</a>
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-rounded" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Delete</button>
+                        </form>
+                    </td>
                 </tr>
+                @endforeach
             </tbody>
         </table>
     </div>
