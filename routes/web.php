@@ -51,3 +51,6 @@ Route::delete('/pengunjung/{id}', [PengunjungController::class, 'destroy']);
 
 //pemasukan
 Route::get('/pemasukan', [PemasukanController::class, 'index']);
+// Route::get('/pemasukan/create', PemasukanController::class,'create');
+Route::post('/pemasukan', [PemasukanController::class, 'store']);
+Route::resource('pemasukan', PemasukanController::class);
