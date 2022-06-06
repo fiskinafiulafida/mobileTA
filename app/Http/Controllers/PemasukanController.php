@@ -9,21 +9,6 @@ use Illuminate\Support\Facades\File;
 
 class PemasukanController extends Controller
 {
-    // public function index()
-    // {
-    //     $pengeluaran = Pengeluaran::all();
-    //     return view('pengeluaran.index', compact(['pengeluaran']));
-    // }
-
-    // public function create()
-    // {
-    //     return view('pengeluaran.create');
-    // }
-
-    // public function store(Request $request)
-    // {
-    //     return $request->file('image')->store('images');
-    // }
     /**
      * Display a listing of the resource.
      *
@@ -73,7 +58,7 @@ class PemasukanController extends Controller
         $file->move($tujuan_upload, $file->getClientOriginalName());
         $pemasukan->save();
 
-        return redirect()->route('pengeluaran.index')->with('msg', 'Data Berhasil di Simpan');
+        return redirect()->route('pemasukan.index')->with('msg', 'Data Berhasil di Simpan');
     }
 
     /**
@@ -97,11 +82,10 @@ class PemasukanController extends Controller
      */
     public function edit($id)
     {
-        // $edit = Pemasukan::find($id);
-        // return view('admin.buku.edit', compact('edit'));
-
-        $pemasukan = Pemasukan::all();
-        return view('pemasukan.edit', compact('pemasukan'));
+        $pemasukan = Pemasukan::where('id', $id)->first();
+        return view('pemasukan.edit', [
+            'pemasukan' => $pemasukan
+        ]);
     }
 
     /**
@@ -146,9 +130,14 @@ class PemasukanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($pemasukan)
     {
-        Pemasukan::find($id)->delete();
-        return redirect('pemasukan')->with('msg', 'Data Berhasil dihapus');
+        if (File::exists('gambar/' . $pemasukan->gambar)) {
+            File::delete('gambar/' . $pemasukan->gambar);
+        }
+
+        Pemasukan::find($pemasukan->id)->delete();
+        return redirect()->route('pengeluran.index')
+            ->with('success', 'pemasuk$pemasukan berhasil dihapus');
     }
 }

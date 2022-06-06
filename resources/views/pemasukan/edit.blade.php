@@ -12,7 +12,7 @@ Edit Pemasukanan
         Edit Pemasukan
     </div>
     <div class="card-body">
-        <form action="pemasukan.update',$pemasukan->id" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('pemasukan.update', $pemasukan->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="mb-3">
@@ -20,12 +20,17 @@ Edit Pemasukanan
                 <input type="text" class="form-control" name="nama" value="{{ $pemasukan->nama }}">
             </div>
             <div class="mb-3">
-                <label for="deskripsi" class="form-label">Deskripsi</label>
-                <textarea class="form-control" name="deskripsi" value="{{ $pemasukan->deskripsi }}" rows="3"></textarea>
+                <div class="form-group">
+                    <label for="deskripsi">Deskripsi Barang</label>
+                    <textarea class="form-control" name="deskripsi" required>{{ $pemasukan->deskripsi }}</textarea>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="gambar">Cover </label>
-                <input type="file" name="gambar" value="{{ $pemasukan->gambar }}">
+            <div class=" mb-3">
+                <div class="form-group">
+                    <label for="gambar">Gambar</label>
+                    <input type="file" class="form-control" name="gambar" value="{{ $pemasukan->gambar }}"><br>
+                    <img src="{{ asset('gambar/'.$pemasukan->gambar) }}" height="150px" width="150px">
+                </div>
             </div>
             <button type="submit" class="btn btn-primary">Save</button>
         </form>
