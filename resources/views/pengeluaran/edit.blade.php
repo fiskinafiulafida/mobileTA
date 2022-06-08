@@ -12,7 +12,7 @@ Edit Pengeluaran
         Edit Pengeluaran
     </div>
     <div class="card-body">
-        <form action="{{ route('pengeluaran.update', $pengeluaran->id) }}" method="POST" enctype="multipart/form-data">
+        <form method="POST" enctype="multipart/form-data" action="{{ route('pengeluaran.update', $pengeluaran->id) }}">
             @csrf
             @method('PUT')
             <div class="mb-3">

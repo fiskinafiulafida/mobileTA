@@ -9,7 +9,13 @@ class Pengeluaran extends Model
 {
     use HasFactory;
     protected $table = "pengeluaran";
-    protected $guarded = ['id'];
+
+    protected $fillable = [
+        'id',
+        'nama',
+        'deskripsi',
+        'gambar',
+    ];
 
     public function pengeluaran()
     {

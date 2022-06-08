@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Pengeluaran;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class PengeluaranController extends Controller
 {
@@ -67,12 +68,12 @@ class PengeluaranController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        $show = Pengeluaran::find($id);
+    // public function show($id)
+    // {
+    //     $show = Pengeluaran::find($id);
 
-        return view('pengeluaran.detail', compact('show'));
-    }
+    //     return view('pengeluaran.detail', compact('show'));
+    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -103,6 +104,13 @@ class PengeluaranController extends Controller
             'deskripsi' => 'required',
             'gambar' => 'nullable',
         ];
+
+        if ($request->file('gambar')) {
+            if ($request->oldImage) {
+                Storage::delete($request->oldImage);
+            }
+            $validatedData['gambar'] = $request->file('gambar')->store('gambar');
+        }
 
         $validatedData = $request->validate($rules);
 

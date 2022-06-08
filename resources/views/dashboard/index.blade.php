@@ -5,11 +5,13 @@ Dashboard
 @endsection
 
 @section('container')
-<h1 class="mt-4">Dashboard</h1>
-<ol class="breadcrumb mb-4">
+<p>
+<h1 class="mt-4">Selamat Datang di Halaman Admin Keuangan</h1>
+</p>
+<!-- <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item active">Dashboard</li>
-</ol>
-<div class="row">
+</ol> -->
+<!-- <div class="row">
     <div class="col-xl-3 col-md-6">
         <div class="card bg-primary text-white mb-4">
             <div class="card-body">Primary Card</div>
@@ -46,5 +48,5 @@ Dashboard
             </div>
         </div>
     </div>
-</div>
+</div> -->
 @endsection
