@@ -7,7 +7,7 @@ Pengeluaran
 @section('container')
 <h1 class="mt-4">Pengeluaran</h1>
 <div>
-    <a href="/pengeluaran/create">
+    <a href="{{ route('pengeluaran.create') }}">
         <button type="button" class="btn btn-outline-primary">Tambah Data Pengeluaran</button>
     </a>
 </div>
@@ -29,28 +29,34 @@ Pengeluaran
             </thead>
             <tfoot>
                 <tr>
-                    <th>Name</th>
-                    <th>Position</th>
-                    <th>Office</th>
-                    <th>Age</th>
+                    <th>Nama</th>
+                    <th>Deskripsi</th>
+                    <th>Gambar</th>
+                    <th>Action</th>
                 </tr>
             </tfoot>
             <tbody>
-                @foreach($pengeluaran as $peng)
+                @forelse ($pengeluaran as $peng)
                 <tr>
                     <td>{{ $peng->nama }}</td>
                     <td>{{ $peng->deskripsi }}</td>
-                    <td><img src="{{asset('gambar/'.$peng->gambar)}}" style='width:80px; height:50px;'></td>
+                    <td class="text-center">
+                        <img src="{{ Storage::url('public/pengeluarans/').$peng->gambar }}" class="rounded" style="width: 150px">
+                    </td>
                     <td>
-                        <form action="{{ route('pengeluaran.destroy', $peng->id) }}" method="POST">
-                            <a href="{{ route('pengeluaran.edit',$peng->id) }}" class="btn btn-warning btn-rounded">Edit</a>
+                        <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="{{ route('pengeluaran.destroy', $peng->id) }}" method="POST">
+                            <a href="{{ route('pengeluaran.edit', $peng->id) }}" class="btn btn-warning btn-rounded">EDIT</a>
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-rounded" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Delete</button>
+                            <button type="submit" class="btn btn-danger btn-rounded">HAPUS</button>
                         </form>
                     </td>
                 </tr>
-                @endforeach
+                @empty
+                <div class="alert alert-danger">
+                    Data Pengeluaran belum Tersedia.
+                </div>
+                @endforelse
             </tbody>
         </table>
     </div>

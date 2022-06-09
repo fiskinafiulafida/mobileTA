@@ -11,14 +11,6 @@ class Pengeluaran extends Model
     protected $table = "pengeluaran";
 
     protected $fillable = [
-        'id',
-        'nama',
-        'deskripsi',
-        'gambar',
+        'gambar', 'nama', 'deskripsi'
     ];
-
-    public function pengeluaran()
-    {
-        return $this->hasMany(Pengeluaran::class);
-    }
 }

@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Pengeluaran;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class PengeluaranController extends Controller
@@ -28,9 +26,7 @@ class PengeluaranController extends Controller
      */
     public function create()
     {
-        $pengeluaran = Pengeluaran::all();
-
-        return view('pengeluaran.create', compact('pengeluaran'));
+        return view('pengeluaran.create');
     }
 
     /**
@@ -42,24 +38,28 @@ class PengeluaranController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'nama' => 'required',
-            'deskripsi'  => 'required',
-
+            'gambar'     => 'required|image|mimes:png,jpg,jpeg',
+            'nama'     => 'required',
+            'deskripsi'   => 'required'
         ]);
 
-        $file = $request->file('gambar');
+        //upload image
+        $gambar = $request->file('gambar');
+        $gambar->storeAs('public/pengeluarans', $gambar->hashName());
 
-        $pengeluaran = new Pengeluaran;
+        $pengeluaran = Pengeluaran::create([
+            'gambar'     => $gambar->hashName(),
+            'nama'     => $request->nama,
+            'deskripsi'   => $request->deskripsi
+        ]);
 
-        $pengeluaran->nama = $request->nama;
-        $pengeluaran->deskripsi = $request->deskripsi;
-        $pengeluaran->gambar  = $file->getClientOriginalName();
-        $tujuan_upload = 'gambar';
-
-        $file->move($tujuan_upload, $file->getClientOriginalName());
-        $pengeluaran->save();
-
-        return redirect()->route('pengeluaran.index')->with('msg', 'Data Berhasil di Simpan');
+        if ($pengeluaran) {
+            //redirect dengan pesan sukses
+            return redirect()->route('pengeluaran.index')->with(['success' => 'Data Berhasil Disimpan!']);
+        } else {
+            //redirect dengan pesan error
+            return redirect()->route('pengeluaran.index')->with(['error' => 'Data Gagal Disimpan!']);
+        }
     }
 
     /**
@@ -81,12 +81,9 @@ class PengeluaranController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Pengeluaran $pengeluaran)
     {
-        $pengeluaran = Pengeluaran::where('id', $id)->first();
-        return view('pengeluaran.edit', [
-            'pengeluaran' => $pengeluaran
-        ]);
+        return view('pengeluaran.edit', compact('pengeluaran'));
     }
 
     /**
@@ -98,27 +95,43 @@ class PengeluaranController extends Controller
      */
     public function update(Request $request, Pengeluaran $pengeluaran)
     {
-        $rules = [
-            'id' => 'required',
-            'nama' => 'required',
-            'deskripsi' => 'required',
-            'gambar' => 'nullable',
-        ];
+        $this->validate($request, [
+            'nama'     => 'required',
+            'deskripsi'   => 'required'
+        ]);
 
-        if ($request->file('gambar')) {
-            if ($request->oldImage) {
-                Storage::delete($request->oldImage);
-            }
-            $validatedData['gambar'] = $request->file('gambar')->store('gambar');
+        //get data pengeluaran by ID
+        $pengeluaran = Pengeluaran::findOrFail($pengeluaran->id);
+
+        if ($request->file('gambar') == "") {
+
+            $pengeluaran->update([
+                'nama'     => $request->nama,
+                'deskripsi'   => $request->deskripsi
+            ]);
+        } else {
+
+            //hapus old gambar
+            Storage::disk('local')->delete('public/pengeluarans/' . $pengeluaran->gambar);
+
+            //upload new gambar
+            $gambar = $request->file('gambar');
+            $gambar->storeAs('public/pengeluarans', $gambar->hashName());
+
+            $pengeluaran->update([
+                'gambar'     => $gambar->hashName(),
+                'nama'     => $request->nama,
+                'deskripsi'   => $request->deskripsi
+            ]);
         }
 
-        $validatedData = $request->validate($rules);
-
-        Pengeluaran::where('id', $pengeluaran->id)
-            ->update($validatedData);
-
-        return redirect()->route('pengeluaran.index')
-            ->with('success', 'Data Berhasil diupdate');
+        if ($pengeluaran) {
+            //redirect dengan pesan sukses
+            return redirect()->route('pengeluaran.index')->with(['success' => 'Data Berhasil Diupdate!']);
+        } else {
+            //redirect dengan pesan error
+            return redirect()->route('pengeluaran.index')->with(['error' => 'Data Gagal Diupdate!']);
+        }
     }
 
     /**
@@ -127,14 +140,18 @@ class PengeluaranController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($pengeluaran)
+    public function destroy($id)
     {
-        if (File::exists('gambar/' . $pengeluaran->gambar)) {
-            File::delete('gambar/' . $pengeluaran->gambar);
-        }
+        $pengeluaran = Pengeluaran::findOrFail($id);
+        Storage::disk('local')->delete('public/pengeluarans/' . $pengeluaran->image);
+        $pengeluaran->delete();
 
-        Pengeluaran::find($pengeluaran->id)->delete();
-        return redirect()->route('pengeluran.index')
-            ->with('success', 'Pengeluaran berhasil dihapus');
+        if ($pengeluaran) {
+            //redirect dengan pesan sukses
+            return redirect()->route('pengeluaran.index')->with(['success' => 'Data Berhasil Dihapus!']);
+        } else {
+            //redirect dengan pesan error
+            return redirect()->route('blpengeluaranog.index')->with(['error' => 'Data Gagal Dihapus!']);
+        }
     }
 }
