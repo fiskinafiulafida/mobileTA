@@ -41,7 +41,7 @@ Pengeluaran
                     <td>{{ $peng->nama }}</td>
                     <td>{{ $peng->deskripsi }}</td>
                     <td class="text-center">
-                        <img src="{{ Storage::url('public/pengeluarans/').$peng->gambar }}" class="rounded" style="width: 150px">
+                        <img src="{{ asset('storage/'.$peng->gambar) }}" class="rounded" style="width: 150px">
                     </td>
                     <td>
                         <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="{{ route('pengeluaran.destroy', $peng->id) }}" method="POST">

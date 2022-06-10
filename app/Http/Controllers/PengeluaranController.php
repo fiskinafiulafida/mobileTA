@@ -44,11 +44,12 @@ class PengeluaranController extends Controller
         ]);
 
         //upload image
-        $gambar = $request->file('gambar');
-        $gambar->storeAs('public/pengeluarans', $gambar->hashName());
+        if ($request->file('gambar')) {
+            $image_name = $request->file('gambar')->store('pengeluaran', 'public');
+        }
 
         $pengeluaran = Pengeluaran::create([
-            'gambar'     => $gambar->hashName(),
+            'gambar'     => $image_name,
             'nama'     => $request->nama,
             'deskripsi'   => $request->deskripsi
         ]);
@@ -111,15 +112,14 @@ class PengeluaranController extends Controller
             ]);
         } else {
 
-            //hapus old gambar
-            Storage::disk('local')->delete('public/pengeluarans/' . $pengeluaran->gambar);
+            if ($pengeluaran->gambar && file_exists(storage_path('app/public/' . $pengeluaran->gambar))) {
+                Storage::delete(['public/', $pengeluaran->gambar]);
+            };
 
-            //upload new gambar
-            $gambar = $request->file('gambar');
-            $gambar->storeAs('public/pengeluarans', $gambar->hashName());
+            $image_name = $request->file('gambar')->store('pengeluaran', 'public');
 
             $pengeluaran->update([
-                'gambar'     => $gambar->hashName(),
+                'gambar'     => $image_name,
                 'nama'     => $request->nama,
                 'deskripsi'   => $request->deskripsi
             ]);
@@ -143,7 +143,7 @@ class PengeluaranController extends Controller
     public function destroy($id)
     {
         $pengeluaran = Pengeluaran::findOrFail($id);
-        Storage::disk('local')->delete('public/pengeluarans/' . $pengeluaran->image);
+        Storage::delete(['public/', $pengeluaran->gambar]);
         $pengeluaran->delete();
 
         if ($pengeluaran) {
