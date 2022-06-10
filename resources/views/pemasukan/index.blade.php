@@ -40,7 +40,9 @@ Pemasukan
                 <tr>
                     <td>{{ $peng->nama }}</td>
                     <td>{{ $peng->deskripsi }}</td>
-                    <td><img src="{{asset('gambar/'.$peng->gambar)}}" style='width:80px; height:50px;'></td>
+                    <td class ="text-center">
+                    <img src="{{ Storage::url('public/pemasukan/').$peng->gambar }}" class="rounded" style="width: 150px">
+                        <img src="{{asset('gambar/'.$peng->gambar)}}" style='width:80px; height:50px;'></td>
                     <td>
                         <form action="{{ route('pemasukan.destroy', $peng->id) }}" method="POST">
                             <a href="{{ route('pemasukan.edit',$peng->id) }}" class="btn btn-warning btn-rounded">Edit</a>

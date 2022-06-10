@@ -1,12 +1,8 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Models\Pemasukan;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
-
+use Illuminate\Support\Facades\Storage;
 class PemasukanController extends Controller
 {
     /**
@@ -19,7 +15,6 @@ class PemasukanController extends Controller
         $pemasukan = Pemasukan::all();
         return view('pemasukan.index', compact(['pemasukan']));
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -27,11 +22,8 @@ class PemasukanController extends Controller
      */
     public function create()
     {
-        $pemasukan = Pemasukan::all();
-
-        return view('pemasukan.create', compact('pemasukan'));
+        return view('pemasukan.create');
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -41,53 +33,52 @@ class PemasukanController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'nama' => 'required',
-            'deskripsi'  => 'required',
-
+            'gambar'     => 'required|image|mimes:png,jpg,jpeg',
+            'nama'     => 'required',
+            'deskripsi'   => 'required'
         ]);
 
-        $file = $request->file('gambar');
+        //upload image
+  
+        if ($request->file('gambar')) {
+            $image_name = $request->file('gambar')->store('pemasukan', 'public');
+        }
 
-        $pemasukan = new Pemasukan;
 
-        $pemasukan->nama = $request->nama;
-        $pemasukan->deskripsi = $request->deskripsi;
-        $pemasukan->gambar  = $file->getClientOriginalName();
-        $tujuan_upload = 'gambar';
-
-        $file->move($tujuan_upload, $file->getClientOriginalName());
-        $pemasukan->save();
-
-        return redirect()->route('pemasukan.index')->with('msg', 'Data Berhasil di Simpan');
+        $pemasukan = Pemasukan::create([
+            'gambar'     => $image_name,
+            'nama'     => $request->nama,
+            'deskripsi'   => $request->deskripsi
+        ]);
+        if ($pemasukan) {
+            //redirect dengan pesan sukses
+            return redirect()->route('pemasukan.index')->with(['success' => 'Data Berhasil Disimpan!']);
+        } else {
+            //redirect dengan pesan error
+            return redirect()->route('pemasukan.index')->with(['error' => 'Data Gagal Disimpan!']);
+        }
     }
-
     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        $show = Pemasukan::find($id);
-
-        return view('admin.buku.detail', compact('show'));
-    }
-
+    // public function show($id)
+    // {
+    //     $show = Pemasukan::find($id);
+    //     return view('pemasukan.detail', compact('show'));
+    // }
     /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Pemasukan $pemasukan)
     {
-        $pemasukan = Pemasukan::where('id', $id)->first();
-        return view('pemasukan.edit', [
-            'pemasukan' => $pemasukan
-        ]);
+        return view('pemasukan.edit', compact('pemasukan'));
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -95,35 +86,47 @@ class PemasukanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Pemasukan $pemasukan)
     {
-        $request->validate([
-            'nama' => 'sometimes',
-            'deskripsi' => 'sometimes',
-            'gambar' => 'sometimes|image|mimes:jpg,png,jpeg,gif,svg|max:1024',
+        $this->validate($request, [
+            'nama'     => 'required',
+            'deskripsi'   => 'required'
         ]);
+        //get data pemasukan by ID
+        $pemasukan = Pemasukan::findOrFail($pemasukan->id);
+        if ($request->file('gambar') == "") {
+            $pemasukan->update([
+                'nama'     => $request->nama,
+                'deskripsi'   => $request->deskripsi
+            ]);
+        } else {
 
-        $pemasukan = new Pemasukan;
+            //hapus old gambar
+            Storage::disk('local')->delete('public/pemasukan/' . $pemasukan->gambar);
+            if ($pemasukan->gambar && file_exists(storage_path('app/public/' . $pemasukan->gambar))) {
+                Storage::delete(['public/', $pemasukan->gambar]);
+            };
 
-        $pemasukan->nama = $request->nama;
-        $pemasukan->deskripsi = $request->deskripsi;
+            //upload new gambar
+            $gambar = $request->file('gambar');
+            $gambar->storeAs('public/pemasukan', $gambar->hashName());
+            $image_name = $request->file('gambar')->store('pemasukan', 'public');
 
-        if ($request->hasFile('gambar')) {
-            $path = 'image/' . $pemasukan->gambar;
-            if (File::exists($path)) {
-                File::delete($path);
-            }
-            $file = $request->file('gambar');
-            $ext = $file->getClientOriginalExtension();
-            $image_name = time() . '.' . $ext;
-            $file->move('image/', $image_name);
-            $pemasukan->gambar = $image_name;
+            $pemasukan->update([
+                'gambar'     => $gambar->hashName(),
+                'gambar'     => $image_name,
+                'nama'     => $request->nama,
+                'deskripsi'   => $request->deskripsi
+            ]);
         }
-
-        $pemasukan->save();
-        return redirect()->route('pemasukan.index')->with('msg', 'Data Berhasil diupdate');
+        if ($pemasukan) {
+            //redirect dengan pesan sukses
+            return redirect()->route('pemasukan.index')->with(['success' => 'Data Berhasil Diupdate!']);
+        } else {
+            //redirect dengan pesan error
+            return redirect()->route('pemasukan.index')->with(['error' => 'Data Gagal Diupdate!']);
+        }
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -132,12 +135,16 @@ class PemasukanController extends Controller
      */
     public function destroy($pemasukan)
     {
-        if (File::exists('gambar/' . $pemasukan->gambar)) {
-            File::delete('gambar/' . $pemasukan->gambar);
-        }
+        $pemasukan = Pemasukan::findOrFail($id);
+        Storage::delete(['public/', $pemasukan->gambar]);
+        $pemasukan->delete();
 
-        Pemasukan::find($pemasukan->id)->delete();
-        return redirect()->route('pengeluran.index')
-            ->with('success', 'pemasuk$pemasukan berhasil dihapus');
+        if ($pemasukan) {
+            //redirect dengan pesan sukses
+            return redirect()->route('pemasukan.index')->with(['success' => 'Data Berhasil Dihapus!']);
+        } else {
+            //redirect dengan pesan error
+            return redirect()->route('blpemasukanog.index')->with(['error' => 'Data Gagal Dihapus!']);
+        }
     }
 }
