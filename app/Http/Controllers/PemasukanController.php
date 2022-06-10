@@ -39,14 +39,13 @@ class PemasukanController extends Controller
         ]);
 
         //upload image
-        $gambar = $request->file('gambar');
-        $gambar->storeAs('public/pemasukan,', $gambar->hashName());
+  
         if ($request->file('gambar')) {
             $image_name = $request->file('gambar')->store('pemasukan', 'public');
         }
 
+
         $pemasukan = Pemasukan::create([
-            'gambar'     => $gambar->hashName(),
             'gambar'     => $image_name,
             'nama'     => $request->nama,
             'deskripsi'   => $request->deskripsi
@@ -134,10 +133,9 @@ class PemasukanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($pemasukan)
     {
         $pemasukan = Pemasukan::findOrFail($id);
-        Storage::disk('local')->delete('public/pemasukan/' . $pemasukan->image);
         Storage::delete(['public/', $pemasukan->gambar]);
         $pemasukan->delete();
 

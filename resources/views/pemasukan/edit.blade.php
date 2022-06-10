@@ -39,6 +39,7 @@ Edit Pemasukan
                         <input type="file" class="form-control" name="gambar">
                     </div>
                     <!-- <img src="{{ asset('gambar/'.$pemasukan->gambar) }}" height="150px" width="150px"> -->
+
                 </div>
             </div>
             <button type="submit" class="btn btn-primary">Save</button>
