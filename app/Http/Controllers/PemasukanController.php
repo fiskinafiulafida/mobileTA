@@ -92,33 +92,31 @@ class PemasukanController extends Controller
             'nama'     => 'required',
             'deskripsi'   => 'required'
         ]);
-        //get data pemasukan by ID
+
+        //get data pe$pemasukan by ID
         $pemasukan = Pemasukan::findOrFail($pemasukan->id);
+
         if ($request->file('gambar') == "") {
+
             $pemasukan->update([
                 'nama'     => $request->nama,
                 'deskripsi'   => $request->deskripsi
             ]);
         } else {
 
-            //hapus old gambar
-            Storage::disk('local')->delete('public/pemasukan/' . $pemasukan->gambar);
             if ($pemasukan->gambar && file_exists(storage_path('app/public/' . $pemasukan->gambar))) {
                 Storage::delete(['public/', $pemasukan->gambar]);
             };
 
-            //upload new gambar
-            $gambar = $request->file('gambar');
-            $gambar->storeAs('public/pemasukan', $gambar->hashName());
             $image_name = $request->file('gambar')->store('pemasukan', 'public');
 
             $pemasukan->update([
-                'gambar'     => $gambar->hashName(),
                 'gambar'     => $image_name,
                 'nama'     => $request->nama,
                 'deskripsi'   => $request->deskripsi
             ]);
         }
+
         if ($pemasukan) {
             //redirect dengan pesan sukses
             return redirect()->route('pemasukan.index')->with(['success' => 'Data Berhasil Diupdate!']);
@@ -135,7 +133,7 @@ class PemasukanController extends Controller
      */
     public function destroy($pemasukan)
     {
-        $pemasukan = Pemasukan::findOrFail($id);
+        $pemasukan = Pemasukan::findOrFail($pemasukan);
         Storage::delete(['public/', $pemasukan->gambar]);
         $pemasukan->delete();
 
