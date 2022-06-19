@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Models\UserAdmin;
 
 class RegisterController extends Controller
 {
@@ -22,7 +22,7 @@ class RegisterController extends Controller
 
         $validatedData['password'] = bcrypt($validatedData['password']);
 
-        User::create($validatedData);
+        UserAdmin::create($validatedData);
         $request->session()->flash('success', 'Registrasi Berhasil !! Silahkan Login ');
         return redirect('/loginAdmin');
     }

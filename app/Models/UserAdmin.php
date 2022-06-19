@@ -9,5 +9,17 @@ class UserAdmin extends Model
 {
     use HasFactory;
     protected $table = "users";
-    protected $guarded = ['id'];
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+    ];
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
 }
