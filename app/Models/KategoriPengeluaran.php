@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class KategoriPengeluaran extends Model
 {
     use HasFactory;
+
+    protected $table = "kategori_pengeluarans";
+    protected $guarded = ['id'];
+
+    public function pengeluaran()
+    {
+    	return $this->hasOne('App\Pengeluaran');
+    }
 }
