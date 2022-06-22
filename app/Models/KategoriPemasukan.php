@@ -11,8 +11,8 @@ class KategoriPemasukan extends Model
     protected $table = "kategori_pemasukans";
     protected $guarded = ['id'];
 
-    public function pengeluaran()
+    public function pemasukan()
     {
-    	return $this->hasOne('App\Pengeluaran');
+    	return $this->hasOne('App\Pemasukan');
     }
 }
