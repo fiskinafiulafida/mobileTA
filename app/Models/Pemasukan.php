@@ -1,22 +1,19 @@
 <?php
+
 namespace App\Models;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+
 class Pemasukan extends Model
 {
     use HasFactory;
-    protected $table = "pemasukan";
+    protected $table = "pemasukans";
+    
+    protected $guarded = ['id'];
 
-    protected $fillable = [
-        'id',
-        'nama',
-        'deskripsi',
-        'gambar',
-        'gambar', 'nama', 'deskripsi'
-    ];
-
-    public function pemasukan()
+    public function kategoriPemasukan()
     {
-        return $this->hasMany(pemasukan::class);
+    	return $this->belongsTo('App\KategoriPemasukan');
     }
 }
