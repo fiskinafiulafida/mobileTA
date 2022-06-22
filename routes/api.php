@@ -25,8 +25,9 @@ Route::post('/auth/login', [AuthController::class, 'login']);
 Route::get('/pengeluaran', [PengeluaranApiController::class, 'index']);
 Route::post('/pengeluaran', [PengeluaranApiController::class, 'store']);
 
+Route::get('/pemasukan', [PemasukanApiController::class, 'index']);
+Route::post('/pemasukan', [PemasukanApiController::class, 'store']);
+
 Route::get('/kategoriPengeluaran', [KatPengeluaranApiController::class, 'index']);
 Route::post('/kategoriPengeluaran', [KatPengeluaranApiController::class, 'store']);
 
-Route::get('/pemasukan', [PemasukanApiController::class, 'index']);
-Route::post('/pemasukan', [PemasukanApiController::class, 'store']);
