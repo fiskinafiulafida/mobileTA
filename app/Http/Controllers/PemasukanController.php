@@ -1,8 +1,10 @@
 <?php
+
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Pemasukan;
 use Illuminate\Support\Facades\Storage;
+
 class PemasukanController extends Controller
 {
     /**
@@ -15,6 +17,7 @@ class PemasukanController extends Controller
         $pemasukan = Pemasukan::all();
         return view('pemasukan.index', compact(['pemasukan']));
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -24,6 +27,7 @@ class PemasukanController extends Controller
     {
         return view('pemasukan.create');
     }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -39,17 +43,16 @@ class PemasukanController extends Controller
         ]);
 
         //upload image
-  
         if ($request->file('gambar')) {
             $image_name = $request->file('gambar')->store('pemasukan', 'public');
         }
-
 
         $pemasukan = Pemasukan::create([
             'gambar'     => $image_name,
             'nama'     => $request->nama,
             'deskripsi'   => $request->deskripsi
         ]);
+
         if ($pemasukan) {
             //redirect dengan pesan sukses
             return redirect()->route('pemasukan.index')->with(['success' => 'Data Berhasil Disimpan!']);
@@ -58,6 +61,7 @@ class PemasukanController extends Controller
             return redirect()->route('pemasukan.index')->with(['error' => 'Data Gagal Disimpan!']);
         }
     }
+
     /**
      * Display the specified resource.
      *
@@ -67,8 +71,10 @@ class PemasukanController extends Controller
     // public function show($id)
     // {
     //     $show = Pemasukan::find($id);
+
     //     return view('pemasukan.detail', compact('show'));
     // }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -79,6 +85,7 @@ class PemasukanController extends Controller
     {
         return view('pemasukan.edit', compact('pemasukan'));
     }
+
     /**
      * Update the specified resource in storage.
      *
@@ -93,7 +100,7 @@ class PemasukanController extends Controller
             'deskripsi'   => 'required'
         ]);
 
-        //get data pe$pemasukan by ID
+        //get data pemasukan by ID
         $pemasukan = Pemasukan::findOrFail($pemasukan->id);
 
         if ($request->file('gambar') == "") {
@@ -125,15 +132,16 @@ class PemasukanController extends Controller
             return redirect()->route('pemasukan.index')->with(['error' => 'Data Gagal Diupdate!']);
         }
     }
+
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($pemasukan)
+    public function destroy($id)
     {
-        $pemasukan = Pemasukan::findOrFail($pemasukan);
+        $pemasukan = Pemasukan::findOrFail($id);
         Storage::delete(['public/', $pemasukan->gambar]);
         $pemasukan->delete();
 
