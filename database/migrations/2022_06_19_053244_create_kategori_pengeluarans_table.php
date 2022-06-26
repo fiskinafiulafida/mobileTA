@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersPengunjungTable extends Migration
+class CreateKategoriPengeluaransTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateUsersPengunjungTable extends Migration
      */
     public function up()
     {
-        Schema::create('users_pengunjung', function (Blueprint $table) {
+        Schema::create('kategori_pengeluarans', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ class CreateUsersPengunjungTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users_pengunjung');
+        Schema::dropIfExists('kategori_pengeluarans');
     }
 }

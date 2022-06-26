@@ -8,9 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Pengeluaran extends Model
 {
     use HasFactory;
-    protected $table = "pengeluaran";
 
-    protected $fillable = [
-        'gambar', 'nama', 'deskripsi'
-    ];
+    protected $table = "pengeluarans";
+    
+    protected $guarded = ['id'];
+
+    public function kategoriPengeluaran()
+    {
+    	return $this->belongsTo('App\KategoriPengeluaran');
+    }
 }

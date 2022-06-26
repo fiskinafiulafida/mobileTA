@@ -5,9 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Pengunjung extends Model
+class KategoriPemasukan extends Model
 {
     use HasFactory;
-    protected $table = "users_pengunjung";
+    protected $table = "kategori_pemasukans";
     protected $guarded = ['id'];
+
+    public function pemasukan()
+    {
+    	return $this->hasOne('App\Pemasukan');
+    }
 }
