@@ -21,28 +21,26 @@ Pengeluaran
         <table id="datatablesSimple">
             <thead>
                 <tr>
-                    <th>Nama</th>
-                    <th>Deskripsi</th>
-                    <th>Gambar</th>
+                    <th>Pengeluaran</th>
+                    <th>Kategori</th>
+                    <th>Tanggal</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
-                    <th>Nama</th>
-                    <th>Deskripsi</th>
-                    <th>Gambar</th>
+                    <th>Pengeluaran</th>
+                    <th>Kategori</th>
+                    <th>Tanggal</th>
                     <th>Action</th>
                 </tr>
             </tfoot>
             <tbody>
-                @forelse ($pengeluaran as $peng)
+                @forelse($pengeluaran as $peng)
                 <tr>
-                    <td>{{ $peng->nama }}</td>
-                    <td>{{ $peng->deskripsi }}</td>
-                    <td class="text-center">
-                        <img src="{{ asset('storage/'.$peng->gambar) }}" class="rounded" style="width: 150px">
-                    </td>
+                    <td>{{ $peng->pengeluaran }}</td>
+                    <td>{{ $peng->kategoriPengeluaran->name }}</td>
+                    <td>{{ $peng->tanggal }}</td>
                     <td>
                         <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="{{ route('pengeluaran.destroy', $peng->id) }}" method="POST">
                             <a href="{{ route('pengeluaran.edit', $peng->id) }}" class="btn btn-warning btn-rounded">EDIT</a>

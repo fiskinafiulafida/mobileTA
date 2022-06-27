@@ -21,28 +21,26 @@ Pemasukan
         <table id="datatablesSimple">
             <thead>
                 <tr>
-                    <th>Nama</th>
-                    <th>Deskripsi</th>
-                    <th>Gambar</th>
+                    <th>Pemasukan</th>
+                    <th>Kategori</th>
+                    <th>Tanggal</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
-                    <th>Name</th>
-                    <th>Position</th>
-                    <th>Office</th>
-                    <th>Age</th>
+                    <th>Pemasukan</th>
+                    <th>Kategori</th>
+                    <th>Tanggal</th>
+                    <th>Action</th>
                 </tr>
             </tfoot>
             <tbody>
                 @foreach($pemasukan as $peng)
                 <tr>
-                    <td>{{ $peng->nama }}</td>
-                    <td>{{ $peng->deskripsi }}</td>
-                    <td class="text-center">
-                        <img src="{{ asset('storage/'.$peng->gambar) }}" class="rounded" style="width: 150px">
-                    </td>
+                    <td>{{ $peng->pemasukan }}</td>
+                    <td>{{ $peng->kategoriPemasukan->name }}</td>
+                    <td>{{ $peng->tanggal }}</td>
                     <td>
                         <form action="{{ route('pemasukan.destroy', $peng->id) }}" method="POST">
                             <a href="{{ route('pemasukan.edit',$peng->id) }}" class="btn btn-warning btn-rounded">Edit</a>
