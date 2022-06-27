@@ -15,6 +15,7 @@ class Pengeluaran extends Model
 
     public function kategoriPengeluaran()
     {
-    	return $this->belongsTo('App\KategoriPengeluaran');
+    	return $this->hasOne(kategoriPengeluaran::class, 'id', 'id_kategoriPengeluaran')
+        ->withDefault(['name' => '']);
     }
 }

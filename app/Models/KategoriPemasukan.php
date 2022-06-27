@@ -10,9 +10,12 @@ class KategoriPemasukan extends Model
     use HasFactory;
     protected $table = "kategori_pemasukans";
     protected $guarded = ['id'];
+    protected $fillable = [
+        'name'
+       ];
 
     public function pemasukan()
     {
-    	return $this->hasOne('App\Pemasukan');
+    	return $this->hasMany('App\Pemasukan');
     }
 }

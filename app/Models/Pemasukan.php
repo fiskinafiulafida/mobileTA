@@ -14,6 +14,7 @@ class Pemasukan extends Model
 
     public function kategoriPemasukan()
     {
-    	return $this->belongsTo('App\KategoriPemasukan');
+    	return $this->hasOne(KategoriPemasukan::class, 'id', 'id_kategoriPemasukan')
+        ->withDefault(['name' => '']);
     }
 }

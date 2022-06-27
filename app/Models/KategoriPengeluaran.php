@@ -11,9 +11,12 @@ class KategoriPengeluaran extends Model
 
     protected $table = "kategori_pengeluarans";
     protected $guarded = ['id'];
+    protected $fillable = [
+        'name'
+       ];
 
     public function pengeluaran()
     {
-    	return $this->hasOne('App\Pengeluaran');
+    	return $this->hasMany(Pengeluaran::class);
     }
 }
